@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Readiness Tracker - Driving School Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #fff;
+            line-height: 1.6;
+            background: #0a0e12;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(21, 25, 33, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #1a1f26;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #9ca3af;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #22c55e;
+        }
+
+        .btn-nav {
+            background: #22c55e;
+            color: #000;
+            padding: 10px 24px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-nav:hover {
+            background: #16a34a;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 90px;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to bottom, #0a0e12 0%, #151921 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 28px;
+            color: #fff;
+            letter-spacing: -1.5px;
+        }
+
+        .hero-content h1 span {
+            color: #22c55e;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #9ca3af;
+            margin-bottom: 48px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            background: #22c55e;
+            color: #000;
+            padding: 18px 40px;
+            border-radius: 6px;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(34, 197, 94, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 18px 40px;
+            border-radius: 6px;
+            border: 2px solid #1a1f26;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-secondary:hover {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        .hero-visual {
+            background: #151921;
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid #1a1f26;
+            position: relative;
+        }
+
+        .dashboard-preview {
+            background: #0a0e12;
+            border-radius: 8px;
+            padding: 32px;
+            border: 1px solid #1a1f26;
+        }
+
+        .preview-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: #151921;
+            padding: 24px;
+            border-radius: 6px;
+            border: 1px solid #1a1f26;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: #22c55e;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-chart {
+            height: 120px;
+            background: #151921;
+            border-radius: 6px;
+            border: 1px solid #1a1f26;
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+            gap: 8px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: #22c55e;
+            border-radius: 2px;
+            opacity: 0.8;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 60px;
+            background: #0a0e12;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-tag {
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #fff;
+            letter-spacing: -1px;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #6b7280;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .feature {
+            background: #151921;
+            padding: 40px 32px;
+            border-radius: 8px;
+            border: 1px solid #1a1f26;
+            transition: all 0.3s;
+        }
+
+        .feature:hover {
+            border-color: #22c55e;
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px rgba(34, 197, 94, 0.1);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .feature h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .feature p {
+            color: #9ca3af;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 120px 60px;
+            background: #151921;
+            border-top: 1px solid #1a1f26;
+            border-bottom: 1px solid #1a1f26;
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-big {
+            font-size: 64px;
+            font-weight: 800;
+            color: #22c55e;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .stat-desc {
+            font-size: 16px;
+            color: #6b7280;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tech Stack */
+        .tech {
+            padding: 120px 60px;
+            background: #0a0e12;
+        }
+
+        .tech-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 80px;
+        }
+
+        .tech-card {
+            background: #151921;
+            padding: 40px 32px;
+            border-radius: 8px;
+            border: 1px solid #1a1f26;
+            transition: all 0.3s;
+        }
+
+        .tech-card:hover {
+            border-color: #22c55e;
+            transform: translateY(-4px);
+        }
+
+        .tech-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .tech-desc {
+            font-size: 13px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 120px 60px;
+            background: linear-gradient(135deg, #151921 0%, #0a0e12 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle at center, rgba(34, 197, 94, 0.15) 0%, transparent 70%);
+        }
+
+        .cta-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 28px;
+            line-height: 1.2;
+            color: #fff;
+            letter-spacing: -1px;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 48px;
+            color: #9ca3af;
+        }
+
+        .btn-cta {
+            background: #22c55e;
+            color: #000;
+            padding: 20px 48px;
+            border-radius: 6px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-cta:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #151921;
+            border-top: 1px solid #1a1f26;
+            padding: 80px 60px 40px;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .footer-brand p {
+            color: #6b7280;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .footer-section h4 {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            color: #22c55e;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #9ca3af;
+            text-decoration: none;
+            margin-bottom: 16px;
+            transition: color 0.2s;
+            font-size: 14px;
+        }
+
+        .footer-section a:hover {
+            color: #22c55e;
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid #1a1f26;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-container,
+            .features-grid,
+            .tech-grid,
+            .stats-container,
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-content h1 {
+                font-size: 48px;
+            }
+
+            .section-header h2,
+            .cta h2 {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container,
+            .hero-container,
+            .features,
+            .stats-section,
+            .tech,
+            .cta,
+            footer {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .stat-big {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo-text">Test Readiness Tracker</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#technology">Technology</a>
+                <a href="dashboard.html" class="btn-nav">Launch App</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Modern driving school <span>management</span></h1>
+                <p>Track student progress, manage test readiness, and ensure DVSA compliance with our cloud-based platform built on AWS serverless architecture.</p>
+                <div class="hero-buttons">
+                    <a href="dashboard.html" class="btn-primary">Get Started</a>
+                    <a href="#features" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="dashboard-preview">
+                    <div class="preview-stats">
+                        <div class="stat-box">
+                            <div class="stat-value">47</div>
+                            <div class="stat-label">Active Students</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Test Ready</div>
+                        </div>
+                    </div>
+                    <div class="preview-chart">
+                        <div class="chart-bar" style="height: 60%;"></div>
+                        <div class="chart-bar" style="height: 80%;"></div>
+                        <div class="chart-bar" style="height: 45%;"></div>
+                        <div class="chart-bar" style="height: 90%;"></div>
+                        <div class="chart-bar" style="height: 70%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+        <div class="features-container">
+            <div class="section-header">
+                <div class="section-tag">Features</div>
+                <h2>Everything you need</h2>
+                <p>Professional tools for modern driving schools</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Dashboard</h3>
+                    <p>Monitor student progress, upcoming tests, and performance metrics with live updates and comprehensive analytics.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <h3>DVSA Compliant</h3>
+                    <p>Built-in tracking for all 9 required maneuvers and test requirements ensuring full compliance.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Serverless Architecture</h3>
+                    <p>Lightning-fast performance with zero maintenance and automatic scaling powered by AWS.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Reliable</h3>
+                    <p>Enterprise-grade AWS infrastructure with automatic backups and data encryption.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Ready</h3>
+                    <p>Fully responsive design works seamlessly across desktop, tablet, and mobile devices.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📈</div>
+                    <h3>Progress Tracking</h3>
+                    <p>Automated readiness calculations based on lessons completed and maneuvers practiced.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-big">9</div>
+                <div class="stat-desc">Tracked Maneuvers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-big">100%</div>
+                <div class="stat-desc">DVSA Compliant</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-big">24/7</div>
+                <div class="stat-desc">Always Available</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-big">&lt;$1</div>
+                <div class="stat-desc">Monthly Cost</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="technology" class="tech">
+        <div class="tech-container">
+            <div class="section-header">
+                <div class="section-tag">Technology</div>
+                <h2>Built on AWS</h2>
+                <p>Modern serverless architecture for scale and reliability</p>
+            </div>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-name">Lambda</div>
+                    <div class="tech-desc">Serverless Compute</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">API Gateway</div>
+                    <div class="tech-desc">REST API</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">DynamoDB</div>
+                    <div class="tech-desc">NoSQL Database</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">CloudWatch</div>
+                    <div class="tech-desc">Monitoring</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Python</div>
+                    <div class="tech-desc">Backend Logic</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Terraform</div>
+                    <div class="tech-desc">Infrastructure as Code</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">IAM</div>
+                    <div class="tech-desc">Security</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">SNS</div>
+                    <div class="tech-desc">Notifications</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>Ready to get started?</h2>
+            <p>Launch the dashboard and start tracking student progress today.</p>
+            <a href="dashboard.html" class="btn-cta">Launch Dashboard</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Test Readiness Tracker</h3>
+                    <p>Professional driving school management system built with AWS serverless architecture.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="#features">Features</a>
+                    <a href="#technology">Technology</a>
+                    <a href="dashboard.html">Dashboard</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">GitHub</a>
+                    <a href="#">Support</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Test Readiness Tracker. Built with AWS serverless architecture.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
